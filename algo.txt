@@ -1,0 +1,39 @@
+Minimize the time for M no. of people:
+i=0
+while(i<N)
+    switchs=0
+    if(arr[i]>M/N) then
+    j=i+1
+    while(j<N)
+        if(arr[j]<M/N) then
+            if(switchs<=((M/N)-arr[j])) then
+                arr[j]=arr[j]+switchs
+                print " people switch from queue i+1 to queue j+1\n"
+                end while
+            else
+                switchs=switchs-(M/N)-arr[j];
+                print "(M/N)-arr[j] People switch from queue i+1 to queue j+1\n";                    arr[j]=M/N;
+            end if
+        end if
+        j=j+1
+    end While
+    end if
+    i=i+1
+end while
+i=0
+while(i<N&&out!=0)         
+    if(arr[i]!=M/N) then
+        out=out-M/N-arr[i];
+        print "M/N-arr[i] People enter to queue i+1\n";
+        arr[i]=M/N;
+    end if
+    i=i+1
+end while
+rem=M%N
+i=0
+while(i<rem)
+    arr[i]=arr[i]+1
+    print "1 person enter to queue i+1\n"
+    i=i+1
+end while        
+print "After this Arrengment it will take ((p*M/N)+p*rem) min to take all people into the stadium\n"
