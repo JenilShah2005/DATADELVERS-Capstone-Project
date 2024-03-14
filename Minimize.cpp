@@ -45,8 +45,8 @@ int main(){
     int arr[N]={0};
     if(M%2==0) out=M/2;
     else out=M/2+1;
-    for(int i=1;i<M/2;++i){
-        ++arr[rand()%(N-1)];
+    for(int i=1;i<=M-out;++i){
+        ++arr[rand()%(N)];
     }
     for(int i=0;i<N;++i){
         cout<<arr[i]<<"\n";
