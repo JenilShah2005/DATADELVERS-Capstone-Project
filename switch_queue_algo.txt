@@ -1,0 +1,25 @@
+Suggest a person standing in a queue of a gate  to switch queue of another gate.
+N-Number of gates
+M-Number of people
+a-gate at which person is standing
+
+
+temp=arr[0]  //finding the gate with  minimum people
+i=1
+while(i<N)
+	if(temp<arr[i])
+		temp=arr[i]
+	end if
+end while
+
+int var=0
+int i=0
+if(temp!=arr[a-1]andtemp==arr[i])
+print "Switch to gate 'i+1' from'a' to enter in less time"
+else
+i++ and var++
+
+endIf
+
+if(var==N)
+print "Its better not to switch"
