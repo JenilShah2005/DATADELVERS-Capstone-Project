@@ -1,0 +1,39 @@
+suggesting person to switch in a queue which has minimum no of people
+
+N-Number of gates
+M-Number of people
+
+if N<=0 or M<=0 then
+  print "This values are not acceptable!!"
+end if
+
+do random distribution of people in gates
+
+i=0
+while(i<N)
+ if temp1>arr[i] then
+    temp1=arr[i]
+    x=i
+ End if
+i=i+1
+End while
+
+print "Distribution: "
+i=0
+while(i<N)
+ print arr[i]
+  if arr[i]==temp1 then
+     c.pushback(i)                 //push_back in vector c
+  End if
+i=i+1
+End while
+
+if temp1==arr[0] then
+  print "Queue in which you are standing is the best"
+else
+  i=0
+  while(i<c.size)
+   print "You can switch to gate no." c[i]+1
+   i=i+1
+  End while
+End if
