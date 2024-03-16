@@ -1,0 +1,66 @@
+suggesting person to switch in a queue which has minimum no of people
+
+N-Number of gates
+M-Number of people
+G-Gate number in which person is standing
+
+if N<=0 or M<=0 then
+  print "This values are not acceptable!!"
+Endif
+
+arr[N]={0}
+c[maximum size]
+
+do random distribution of people in gates
+
+temp1=arr[G-1], x=0
+i=0
+while(i<N)
+ if temp1>arr[i] then
+    temp1=arr[i]
+    x=i
+ Endif
+i=i+1
+Endwhile
+
+print "Distribution: "
+i=0
+while(i<N)
+ print arr[i]
+  if arr[i]==temp1 then
+     c.pushback(i)                 //push_back in vector c
+  Endif
+i=i+1
+Endwhile
+
+if temp1==arr[G-1] then
+  print "Queue in which you are standing is the best"
+else
+  print "You can switch to gate no."
+  i=0
+    while(i<c.size())
+      print c[i]+1
+      if i!=c.size()-1 then
+       print ","
+      else
+       print " "
+      Endif
+     i=i+1
+    Endwhile
+  print "from gate no. " G
+      if c.size()>1 then
+      ans=0
+      print "In which gate you want to switch?"
+      scan(ans)
+      
+      arr[ans-1]=arr[ans-1]+1
+      arr[G-1]=arr[G-1]-1
+      print "Current people in gate no." ans " are " arr[ans-1]
+      print "Current people in gate no."  G  " are " arr[G-1]
+
+      else if c.size()==1 then
+      arr[c[0]]=arr[c[0]]+1
+      arr[G-1]=arr[G-1]-1
+      print "Current people in gate no." c[0] " are " arr[c[0]]
+      print "Current people in gate no."  G  " are " arr[G-1]
+      Endif
