@@ -25,7 +25,7 @@ void minimize(int *arr,int &M,int &N,int &p){
         }
     }
     for(int i=0;(i<N&&out!=0);++i){
-        if(arr[i]!=M/N){
+        if(arr[i]<M/N){
             out-=M/N-arr[i];
             cout<<M/N-arr[i]<<" People enter to queue "<<i+1<<"\n";
             arr[i]=M/N;
@@ -36,8 +36,9 @@ void minimize(int *arr,int &M,int &N,int &p){
         ++arr[i];
         cout<<"1 person enter to queue "<<i+1<<"\n";
     }
-    cout<<"After this Arrengment it will take "<<(p*M/N)+p*rem<<" min to take all people into the stadium\n";
+    cout<<"After this Arrengment it will take "<<(p)*(M/N)+p*(rem!=0)<<" min to take all people into the stadium\n";
 }
+
 int main(){
     int N,M,p;
     int out;
@@ -45,8 +46,24 @@ int main(){
     int arr[N]={0};
     if(M%2==0) out=M/2;
     else out=M/2+1;
+    int choice,sum=0;
+    cin>>choice;
+    if(choice==1){
     for(int i=1;i<=M-out;++i){
         ++arr[rand()%(N)];
+    }
+    }
+    else{
+        for(int i=0;i<N;++i){
+        cin>>arr[i];
+        sum+=arr[i];
+        if(sum>=M-out){
+            sum-=arr[i];
+            arr[i]=M-out-sum;
+            sum+=arr[i];
+            break;
+        }
+        }
     }
     for(int i=0;i<N;++i){
         cout<<arr[i]<<"\n";
