@@ -17,9 +17,9 @@ if (N<=0||M<=0){
         int temp = distribute(generate);
         arr[temp]++;
     }
-    int temp1=arr[G-1],x=0;
+    int temp1=(arr[G-1]-1)*p,x=0;
     for(int i=0;i<N;++i){
-        if(temp1>arr[i]){
+        if(temp1>arr[i]*p+switch_time){
             temp1 = arr[i];
             x = i;
         }
@@ -27,7 +27,7 @@ if (N<=0||M<=0){
     cout<<"Distribution: ";
     for(int i=0;i<N;++i){
         cout<<arr[i]<<" ";
-        if(arr[i]==temp1)  c.push_back(i);
+        if(arr[x]==arr[i])  c.push_back(i);
     }
     cout<<endl;
 
