@@ -13,7 +13,7 @@ c[maximum size]
 
 do random distribution of people in gates
 
-temp1=arr[G-1], x=0
+temp1=arr[G-1]*switch_time, x=0
 i=0
 while(i<N)
  if temp1>arr[i] then
@@ -27,7 +27,7 @@ print "Distribution: "
 i=0
 while(i<N)
  print arr[i]
-  if arr[i]==temp1 then
+  if arr[x]==arr[i] then
      c.pushback(i)                 //push_back in vector c
   Endif
 i=i+1
