@@ -64,3 +64,5 @@ else
       print "Current people in gate no." c[0] " are " arr[c[0]]
       print "Current people in gate no."  G  " are " arr[G-1]
       Endif
+***************************************Time Complexity:O(N+M)
+Space Complexity:O(N)
