@@ -1,0 +1,49 @@
+Pseudocode for entry of new people in given number of gates
+
+N- Number of gates
+arr - array storing number of people in each gate
+
+min = arr[0]
+index
+
+i=1
+while(i<N)
+   if arr[i]<min
+      min = arr[i]
+   Endif
+   i=i+1
+Endwhile
+i=0
+while(i<N)
+   if arr[i]==min
+      index.push_back(i)
+   Endif
+   i=i+1
+Endwhile
+print "You can enter to following gate number: "
+i=0
+while(i<index.size())
+   print index[i]+1
+   if i!=index.size()-1
+      print ","
+   else
+      print " "
+   Endif
+   i=i+1
+Endwhile
+print "\n"
+
+t
+if index.size()>1
+   print "You want to enter in which gate: "
+   scan t
+   arr[t-1]=arr[t-1]+1
+else
+   arr[index[0]]=arr[index[0]]+1
+Endif
+
+
+
+Time Complexity - O(N)
+Space Complexity - O(N)
+   
