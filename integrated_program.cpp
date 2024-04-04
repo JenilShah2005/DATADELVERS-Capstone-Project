@@ -47,6 +47,7 @@ void enter(int *arr){
                 }
             }
         ++arr[t-1];
+        --out;
     }
     else ++arr[index[0]];
 }
@@ -150,12 +151,13 @@ void minimize(int *arr){
     int rem=M%N;
     for(int i=0;i<rem&&out>0;++i){
         ++arr[i];
-        cout<<"1 person enter to queue "<<i+1<<"\n";
+        --out;
+        cout<<"1 person from remaining people enter to queue "<<i+1<<"\n";
     }
     int k=0;
     int switchs=0;
     for(int i=0;i<N;++i){
-        if(arr[i]>M/N){
+        if(arr[i]>(M/N+1)){
             switchs=arr[i]-M/N;
             arr[i]-=switchs;
             for(int j=i+1;j<N;++j){
@@ -182,7 +184,7 @@ void minimize(int *arr){
         ++arr[i];
         --switchs;
     }
-    cout<<"After this Arrangment it will take "<<(p)*(M/N)+p*(rem!=0)<<" minutes to take all people into the stadium\n";
+    cout<<"After this Arrangement it will take "<<(p)*(M/N)+p*(rem!=0)<<" minutes to take all people into the stadium\n";
 }
 void menu(int *arr){
     cout<<"\n\nEnter 1 to switch the queue\n"
