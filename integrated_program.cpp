@@ -94,8 +94,8 @@ void distribution(int G,int *arr){
 
         if(c.size()>1){
             int ans;
-            cout<<"In which gate you want to switch ?"<<endl;
-            cin>>ans;
+                cout<<"In which gate you want to switch ?"<<endl;
+                cin>>ans;
             for(int i=0;true;++i){
                 if(ans==c[i]+1){
                     break;
@@ -121,10 +121,12 @@ void distribution(int G,int *arr){
         }
         time_spend+=switch_time;
         if(time_spend>=p){
-            cout<<"Entery Proceeded in each gate.\n";
+            cout<<"Entry Proceeded in each gate.\n";
             time_spend-=p;
             for(int i=0;i<N;++i){
+                if(arr[i]>0){
                 --arr[i];
+                }
                 --M;
             }
         }
@@ -194,8 +196,16 @@ void menu(int *arr){
     int gtn;
     switch(choice){
         case 1:
-        cout << "Enter the gate no. from which you want to switch: ";
-        cin>>gtn;
+         while(1){
+                 cout<< "Enter the gate no. from which you want to switch: ";
+                cin>>gtn;
+                if(arr[gtn-1]==0){
+                    cout<<"Invalid input as enetred queue is empty."<<endl;
+                }
+                else
+                break;
+
+            }
         if(!(gtn>=1&&gtn<=N)){
             cout<<"Invalid Gate number please retry.\n";
         }
@@ -261,7 +271,7 @@ int main(){
         }
     }
     cout<<endl;
-    
+
     int x,sum=0;
     cout<<"Enter 1 to randomly assign values else you can enter number of peoples in each gate\nEnter your choice: ";
     cin>>x;
