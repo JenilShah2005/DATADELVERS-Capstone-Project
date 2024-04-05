@@ -1,14 +1,23 @@
 #include<bits/stdc++.h>
+#include<windows.h>
 using namespace std;
+HANDLE h=GetStdHandle(STD_OUTPUT_HANDLE);
 int M,N,out;
-float p,switch_time;
+float p,switch_time,time_spend;
 void display_gates(int *arr){
+    SetConsoleTextAttribute(h,3);
+    cout<<"Distribution of people in gates: ";
     for(int i=0;i<N;++i){
         cout<<arr[i]<<" ";
     }
     cout<<"\n";
 }
 void enter(int *arr){
+    if(out<=0){
+        SetConsoleTextAttribute(h,4);
+        cout<<"There are No people outside! try another choice\n";
+        return;
+    }
     int min=arr[0];vector<int>index;
     for(int i=1;i<N;++i){
         if(arr[i]<min){
@@ -20,6 +29,7 @@ void enter(int *arr){
             index.push_back(i);
         }
     }
+    SetConsoleTextAttribute(h,10);
     cout<<"You can enter to following gate number: ";
     for(int i=0;i<index.size();++i){
         cout<<index[i]+1;
@@ -32,6 +42,7 @@ void enter(int *arr){
     }
     int t;
     if(index.size()>1){
+        SetConsoleTextAttribute(h,10);
         cout<<"You want to enter in which gate: ";
         cin>>t;
         for(int i=0;true;++i){
@@ -39,7 +50,9 @@ void enter(int *arr){
                     break;
                 }
                 else if(i+1==(index.size())){
+                    SetConsoleTextAttribute(h,4);
                     cout<<"Invalid input retry\n";
+                    SetConsoleTextAttribute(h,10);
                     cout<<"You want to enter in which gate: "<<endl;
                     cin>>t;
                     i=-1;
@@ -48,13 +61,21 @@ void enter(int *arr){
         ++arr[t-1];
     }
     else ++arr[index[0]];
+    --out;
 }
 void last_person_time(int *arr,int gtn){
-    cout<<"The time taken by the last person to enter in line number: "<<gtn<<" is "<<p*arr[gtn-1]<<" mins. \n";
+    if(arr[gtn-1]==0){
+        SetConsoleTextAttribute(h,14);
+        cout<<"The gate has no people in queue so it will take "<<p<<" min if a person enter to this queue.\n";
+        return;
+    }
+    SetConsoleTextAttribute(h,14);
+    cout<<"The time taken by the last person to get entry in stadium from gate no."<<gtn<<" is "<<p*arr[gtn-1]<<" mins. \n";
 }
 void distribution(int G,int *arr){
     vector<int> c;
     if (N<=0||M<=0){
+        SetConsoleTextAttribute(h,4);
         cerr << "This values are not acceptable!!" << endl;
         return ;
     }
@@ -69,7 +90,8 @@ void distribution(int G,int *arr){
             x = i;
         }
     }
-    cout<<"Distribution: ";
+    SetConsoleTextAttribute(h,3);
+    cout<<"Distribution of people in gates: ";
     for(int i=0;i<N;++i){
         cout<<arr[i]<< " ";
         if(arr[i]==arr[x]){
@@ -77,9 +99,11 @@ void distribution(int G,int *arr){
         }
     }
     cout<<endl;
-    if(temp1==(arr[G-1]-1)*p) cout<<"Current is best!"<<endl;
+    SetConsoleTextAttribute(h,10);
+    if(temp1==(arr[G-1]-1)*p) cout<<"Current queue in which you are, is best!"<<endl;
     else{
-        cout<<"You can switch to gate no. ";
+        SetConsoleTextAttribute(h,10);
+        cout<<"You can switch to gate no.";
         for(int i=0;i<c.size();++i){
             cout<<c[i]+1;
             if(i!=c.size()-1){
@@ -89,18 +113,20 @@ void distribution(int G,int *arr){
                 cout<<" ";
             }
         }
-        cout<<"from gate no. "<<G<<endl;
+        cout<<"from gate no."<<G<<endl;
 
         if(c.size()>1){
             int ans;
-            cout<<"In which gate you want to switch ?"<<endl;
-            cin>>ans;
+                cout<<"In which gate you want to switch ?"<<endl;
+                cin>>ans;
             for(int i=0;true;++i){
                 if(ans==c[i]+1){
                     break;
                 }
                 else if(i+1==(c.size())){
+                    SetConsoleTextAttribute(h,4);
                     cout<<"Invalid input retry\n";
+                    SetConsoleTextAttribute(h,10);
                     cout<<"In which gate you want to switch ?"<<endl;
                     cin>>ans;
                     i=-1;
@@ -118,81 +144,121 @@ void distribution(int G,int *arr){
             cout<<"Current people in gate no."<<c[0]+1<<" are "<<arr[c[0]]<<endl;
             cout<<"Current people in gate no."<<G<<" are "<<arr[G-1]<<endl;
         }
-
-        
+        time_spend+=switch_time;
+        if(time_spend>=p){
+            cout<<"Entry Proceeded in each gate.\n";
+            time_spend-=p;
+            for(int i=0;i<N;++i){
+                if(arr[i]>0){
+                --arr[i];
+                }
+                --M;
+            }
+        }
     }
 }
 void minimize(int *arr){
-    for(int i=0;(i<N&&out!=0);++i){
+    SetConsoleTextAttribute(h,10);
+    for(int i=0;(i<N&&out>0);++i){
         if(arr[i]<M/N){
             out-=M/N-arr[i];
             if(out<0){
-                cout<<M/N-arr[i]+out<<" People enter to queue "<<i+1<<"\n";
+        
+                cout<<M/N-arr[i]+out<<" People from remaining people enter to queue "<<i+1<<"\n";
                 arr[i]=M/N;
                 arr[i]+=out;
             }
             else{
-                cout<<M/N-arr[i]<<" People enter to queue "<<i+1<<"\n";
+                cout<<M/N-arr[i]<<" People from remaining people enter to queue "<<i+1<<"\n";
                 arr[i]=M/N;
             }
         }
     }
+    int rem=M%N;
+    for(int i=0;i<rem&&out>0;++i){
+        if(arr[i]<=M/N){
+        ++arr[i];
+        cout<<"1 People from remaining people enter to queue "<<i+1<<"\n";
+        --out;
+        }
+    }
+    int k=0;
+    int switchs=0;
     for(int i=0;i<N;++i){
-        int switchs=0;
-        if(arr[i]>M/N){
+        if((arr[i]>(M/N+1)&&rem!=0)||(arr[i]>M/N&&rem==0)){
             switchs=arr[i]-M/N;
             arr[i]-=switchs;
             for(int j=i+1;j<N;++j){
                 if(arr[j]<M/N){
                     if(switchs<=((M/N)-arr[j])){
                         arr[j]+=switchs;
-                        cout<<switchs<<" people switch from queue "<<i+1<<" to queue "<<j+1<<"\n";
+                        cout<<switchs<<" People switch from queue "<<i+1<<" to queue "<<j+1<<"\n";
+                        switchs=0;
                         break;
                     }
                     else{
                         switchs-=(M/N)-arr[j];
                         cout<<(M/N)-arr[j]<<" People switch from queue "<<i+1<<" to queue "<<j+1<<"\n";
                         arr[j]=M/N;
+                        k=i;
                     }
                 }
-            }
+            } 
         }
     }
-    int rem=M%N;
-    for(int i=0;i<rem;++i){
+    for(int i=0;i<N&&switchs>0;++i){
+        if(i!=k)
+        cout<<"1 Person switch from queue "<<k+1<<" to queue "<<i+1<<"\n";
         ++arr[i];
-        cout<<"1 person enter to queue "<<i+1<<"\n";
+        --switchs;
     }
-    cout<<"After this Arrangement it will take "<<(p)*(M/N)+p*(rem!=0)<<" min to take all people into the stadium\n";
+    SetConsoleTextAttribute(h,14);
+    cout<<"After this Arrangement it will take "<<(p)*(M/N)+p*(rem!=0)<<" minutes to take all people into the stadium\n";
 }
 void menu(int *arr){
-    cout<<"Enter 1 for choosing line to switch\n"
-        <<"Enter 2 for choosing line to Enter\n"
-        <<"Enter 3 to minimize the overall queues\n"
-        <<"Enter 4 to get the last person time in a given line\n"
-        <<"Enter 0 to end the code\n"
+    SetConsoleTextAttribute(h,13);
+    cout<<"\n\nEnter 1 to switch the queue\n"
+        <<"Enter 2 to choose in which gate you want to Enter\n"
+        <<"Enter 3 to get minimized overall time to take all people in\n"
+        <<"Enter 4 to get the last person time in a given queue\n"
+        <<"Enetr 0 to end the program\n"
         <<"Enter Your choice: ";
     int choice;
     cin>>choice;
     int gtn;
     switch(choice){
         case 1:
-        cout << "Enter the gate no. from which you want to switch: ";
-        cin>>gtn;
-        if(!(gtn>=1&&gtn<=N)){
-            cout<<"Invalid Gate number pls retry.\n";
-        }
-        else
+         while(1){
+                SetConsoleTextAttribute(h,10);
+                 cout<< "Enter the gate number from which you want to switch: ";
+                cin>>gtn;
+                if(!(gtn>=1&&gtn<=N)){
+                    SetConsoleTextAttribute(h,4);
+                    cout<<"Invalid Gate number please retry.\n";
+                }
+                else if(arr[gtn-1]==0){
+                    SetConsoleTextAttribute(h,4);
+                    cout<<"Invalid input as enetred queue is empty."<<endl;
+                }
+                else
+                break;
+
+            }
         system("CLS");
-        cout<<"N = "<<N<<" M = "<<M<<" p = "<<p<<"\n";
-        display_gates(arr);
+        SetConsoleTextAttribute(h,4);
+        cout<<"You have choosed to Switch.\n";
+        SetConsoleTextAttribute(h,3);
+        cout<<"The total number of people present(M) are: "<<M<<"\nThe total number gates(N) are "<<N<<"\nThe time for entry(p) in mins is "<<p<<"\n";
         distribution(gtn,arr);
         display_gates(arr);
         menu(arr);
         break;
         case 2:
         system("CLS");
-        cout<<"N = "<<N<<" M = "<<M<<" p = "<<p<<"\n";
+        SetConsoleTextAttribute(h,4);
+        cout<<"You have choosed to enter in the queue.\n";
+        SetConsoleTextAttribute(h,3);
+        cout<<"The total number of people present are: "<<M<<"\nThe total number gates are "<<N<<"\nThe value of p in mins is "<<p<<"\n";
         display_gates(arr);
         enter(arr);
         display_gates(arr);
@@ -200,25 +266,42 @@ void menu(int *arr){
         break;
         case 3:
         system("CLS");
-        cout<<"N = "<<N<<" M = "<<M<<" p = "<<p<<"\n";
+        SetConsoleTextAttribute(h,4);
+        cout<<"You have choosed to Minimize the entry time.\n";
+        SetConsoleTextAttribute(h,3);
+        cout<<"The total number of people present are: "<<M<<"\nThe total number gates are "<<N<<"\nThe value of p in mins is "<<p<<"\n";
         display_gates(arr);
         minimize(arr);
         display_gates(arr);
         break;
         case 4:
         system("CLS");
-        cout<<"N = "<<N<<" M = "<<M<<" p = "<<p<<"\n";
+        SetConsoleTextAttribute(h,4);
+        cout<<"You have choosed to get your stadium entery time\n";
+        SetConsoleTextAttribute(h,3);
+        cout<<"The total number of people present are: "<<M<<"\nThe total number gates are "<<N<<"\nThe value of p in mins is "<<p<<"\n";
         display_gates(arr);
-        cout << "Enter the gate no. from which you want to switch: ";
-        cin>>gtn;
+        SetConsoleTextAttribute(h,10);
+        while(true){
+            cout << "Enter the gate number in which you are currently: ";
+            cin>>gtn;
+            if(gtn<1||gtn>N){
+                SetConsoleTextAttribute(h,4);
+                cout<<"There is No gate Number "<<gtn<<" in the stadium retry.\n";
+            }
+            else break;
+        }
         last_person_time(arr,gtn);
         display_gates(arr);
         menu(arr);
         break;
         case 0:
+        SetConsoleTextAttribute(h,15);
+        cout<<"Program Terminated!!\n";
         return;
         break;
         default:
+        SetConsoleTextAttribute(h,4);
         cout<<"Invalid choice try again\n";
         display_gates(arr);
         menu(arr);
@@ -226,23 +309,33 @@ void menu(int *arr){
     }
 }
 int main(){
+    SetConsoleTextAttribute(h,3);
     cout << "Enter the number of gates (N): ";
     cin >> N;
     cout << "Enter the total number of people (M): ";
     cin >> M;
     cout<< "Enter the time for a single person to enter (p in mins): ";
     cin>> p;
+    SetConsoleTextAttribute(h,4);
+    if(N<=0 || M<=0 || p<0) 
+    {cout<<"Invalid inputs"<<endl; exit(1);}
+    else{
     while(true){
-        cout<<"Enter time to switch from a line in mins: ";
+        SetConsoleTextAttribute(h,3);
+        cout<<"Enter time to switch from a line (in mins): ";
         cin>>switch_time;
         if(switch_time>=p){
-            cout<<"Switch time is very high re-enter\n";
+            SetConsoleTextAttribute(h,4);
+            cout<<"Switch time can't be grater than entry time! Re-enter\n";
         }
         else{
             break;
         }
     }
+    cout<<endl;
+
     int x,sum=0;
+    SetConsoleTextAttribute(h,3);
     cout<<"Enter 1 to randomly assign values else you can enter number of peoples in each gate\nEnter your choice: ";
     cin>>x;
     if(M%2==0) out=M/2;
@@ -260,10 +353,10 @@ int main(){
     }
     else{
         for(int i=0;i<N;++i){
-        cout<<"Enter the number of people in queue of gate "<<i+1<<": ";
+        cout<<"Enter the number of people in the queues of each gate "<<i+1<<": ";
         cin>>arr[i];
         sum+=arr[i];
-        if(sum>=M-out){
+        if(sum>M-out){
             sum-=arr[i];
             arr[i]=M-out-sum;
             sum+=arr[i];
@@ -271,7 +364,11 @@ int main(){
             break;
         }
         }
+        if(sum<M-out){
+            out=M-sum;
+        }
     }
     display_gates(arr);
     menu(arr);
+    }
 }
