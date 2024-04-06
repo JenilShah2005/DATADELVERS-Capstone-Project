@@ -28,6 +28,17 @@ of the gates randomly (may not be equally distributed).
 
 Our Assumptions:
 1. For People Entering from outside takes 0 min to enter a queue
-2. The Time for switch is constant p/5
-3. only last person of a queue can switch
-4. only 1 person can enter to queue at a time from outside
+2. The Time for switch is constant and less than p but user defined
+3. only last person of a queue can switch for individual switching
+4. only 1 person can enter to queue at a time from outside for entering option.
+
+
+The time complexity of our overall code is O(N^2+M).
+since M is the capacity of the stadium is mostly very high than the number of gates therefore M can be greater than N^2 hence time complexity is O(N^2+M).
+
+
+The code makes a array of size N and a vector that can have size N-1 
+Therfore the space complexity of the overall code is O(N).
+
+
+We are Using Array and vector for our code Since we are treating every person in the queue equally so we have choosen Array and Vector to make our code's time and space complexity less.
