@@ -63,3 +63,8 @@ Minimize_for_M.cpp is code file for the function to minizime entry.
 Switch_Queue.cpp is the code file for the function to switch from a queue.
 
 After integreating all the individuals functions all the editing in whole code and indiviual function has only be done in the integrated code.
+
+The link give below is of our small demonstration on our capstone Project OutPut:
+    https://drive.google.com/file/d/1X2VBZM8XXSwvzoQawYixtfloEsI-0Xty/view?usp=sharing
+
+All the folders named Output and a number are screenshot of our output codes.
