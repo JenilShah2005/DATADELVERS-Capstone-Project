@@ -37,3 +37,10 @@ After integreating all the individuals functions all the editing in whole code a
 The link give below is of our small demonstration on our capstone Project OutPut: https://drive.google.com/file/d/1X2VBZM8XXSwvzoQawYixtfloEsI-0Xty/view?usp=sharing
 
 All the folders named Output and a number are screenshot of our output codes.
+
+Contribution Table:
+Approx contribution of each team member:
+Ayush Dhamecha: 202301204           - 23% 
+Rudra Raiyani: 202301223            - 22%
+Shah Jenil Smiteshbhai: 202301249   - 31%
+Vivek Dodiya: 202301250             - 24% 
